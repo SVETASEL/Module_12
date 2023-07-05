@@ -96,7 +96,12 @@ function getGenderDescription($example_persons_array) {
     return $genderDescription;
 }
 
-function getPerfectPartner($surname, $name, $patronomyc) {
+function getPerfectPartner($surname, $name, $patronomyc, $example_persons_array) {
+    
+    $surname = ucwords(strtolower($surname));
+    $name = ucwords(strtolower($name));
+    $patronomyc = ucwords(strtolower($patronomyc));
+
     $fullname = getFullnameFromParts($surname, $name, $patronomyc);
     $gender = getGenderFromName($fullname);
 
