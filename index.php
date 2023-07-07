@@ -97,7 +97,6 @@ function getGenderDescription($example_persons_array) {
 }
 
 function getPerfectPartner($surname, $name, $patronomyc, $example_persons_array) {
-    
     $surname = ucwords(strtolower($surname));
     $name = ucwords(strtolower($name));
     $patronomyc = ucwords(strtolower($patronomyc));
@@ -105,15 +104,22 @@ function getPerfectPartner($surname, $name, $patronomyc, $example_persons_array)
     $fullname = getFullnameFromParts($surname, $name, $patronomyc);
     $gender = getGenderFromName($fullname);
 
-    include 'array.php';    
+    $potentialPartners = [];
+    foreach ($example_persons_array as $person) {
+        $partnerGender = getGenderFromName($person['fullname']);
+        if ($gender !== $partnerGender && $gender !== 0 && $partnerGender !== 0) {
+            $potentialPartners[] = $person['fullname'];
+        }
+    }
 
-    do {
-        $randomIndex = array_rand($example_persons_array);
-        $partnerFullname = $example_persons_array[$randomIndex]['fullname'];
-        $partnerGender = getGenderFromName($partnerFullname);
-    } while ($gender === $partnerGender || $partnerGender === 0);
+    if (empty($potentialPartners)) {
+        return ' К сожалению, пара не найдена.';
+    }
 
-    $compatibilityPercentage = mt_rand(50, 100) / 100; 
+    $randomIndex = array_rand($potentialPartners);
+    $partnerFullname = $potentialPartners[$randomIndex];
+
+    $compatibilityPercentage = mt_rand(50, 100) / 100;
 
     $perfectPair = "$fullname + $partnerFullname = \n";
     $perfectPair .= "♡ Идеально на " . number_format($compatibilityPercentage * 100, 2) . "% ♡";
@@ -153,6 +159,6 @@ echo "Short Name: $shortName<br>";
 $genderDescription = getGenderDescription($example_persons_array);
 echo $genderDescription;
 
-$perfectPartner = getPerfectPartner($surname, $name, $patronomyc);
+$perfectPartner = getPerfectPartner($surname, $name, $patronomyc, $example_persons_array);
 echo $perfectPartner;
 
