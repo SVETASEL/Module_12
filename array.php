@@ -37,7 +37,7 @@ $example_persons_array = [
         'job' => 'analyst',
     ],
     [
-        'fullname' => 'Бардова Жаклин Фёдоровна',
+        'fullname' => 'Бардо Жаклин Фёдоровна',
         'job' => 'android-developer',
     ],
     [
